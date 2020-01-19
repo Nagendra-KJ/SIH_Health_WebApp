@@ -21,14 +21,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-<<<<<<< HEAD
-    BrowserAnimationsModule
-=======
     AngularFireModule.initializeApp(environment.firebase),
      AngularFirestoreModule,
      ReactiveFormsModule,
      FormsModule
->>>>>>> 5f1150df61f35c359bf734280b415e5b2e32726b
   ],
   providers: [],
   bootstrap: [AppComponent]
