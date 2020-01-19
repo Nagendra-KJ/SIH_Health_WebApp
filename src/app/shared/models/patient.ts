@@ -1,0 +1,20 @@
+export class Patient
+{
+    name:string;
+    age:number;
+    height:number;
+    weight:number;
+    bloodType:string;
+    appointmentDate:any;
+    phoneNumber:number;
+    constructor()
+    {
+        this.name=null;
+        this.age=null;
+        this.height=null;
+        this.weight=null;
+        this.bloodType=null;
+        this.appointmentDate=null;
+        this.phoneNumber=null;
+    }
+}
