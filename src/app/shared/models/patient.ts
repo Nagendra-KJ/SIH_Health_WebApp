@@ -7,6 +7,7 @@ export class Patient
     bloodType:string;
     appointmentDate:any;
     phoneNumber:number;
+    key:string;
     constructor()
     {
         this.name=null;
@@ -16,5 +17,6 @@ export class Patient
         this.bloodType=null;
         this.appointmentDate=null;
         this.phoneNumber=null;
+        this.key=null;
     }
 }

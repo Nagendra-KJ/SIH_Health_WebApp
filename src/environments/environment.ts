@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase : {
+  firebaseConfig : {
     apiKey: "AIzaSyAi-Fw8rGwMbPEP1Sid2PBWnIC94oUD7RY",
     authDomain: "sih-health-app.firebaseapp.com",
     databaseURL: "https://sih-health-app.firebaseio.com",
