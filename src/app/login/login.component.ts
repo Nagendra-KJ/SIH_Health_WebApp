@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import {AuthService} from '../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +10,73 @@ import { FormControl } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  username = new FormControl();
+  email = new FormControl();
   password = new FormControl();
+  loginError:boolean=false;
+  warningText:string="";
 
-  constructor() { }
+  constructor(private auth:AuthService,private router:Router) {}
 
-  ngOnInit() {}
+  ngOnInit() 
+  {
+    if(this.auth.authenticated())
+    {
+      this.loginError=true;
+      this.warningText="You have been logged out automatically, please login again to continue";
+      this.auth.logout();
+    }
+    else
+    {
+      this.warningText="";
+      this.loginError=false;
+    }
+  }
 
   onLoginClick()
   {
-    console.log("Login button was clicked");
-    console.log("Username is "+this.username.value);
-    console.log("Password is "+this.password.value);
+    this.loginError=false;
+    if(this.email.value!=null && this.password.value!=null)
+    {
+      this.warningText="";
+      var result=this.auth.login(this.email.value,this.password.value);
+      result.then(()=>
+      {
+        console.log("Login Successful");
+        this.router.navigate(['/dashboard']);
+      })
+      result.catch(err=>
+        {
+          this.loginError=true;
+          this.warningText="Email or Password is incorrect. Are you sure you are a registered user?";
+          console.log(err);
+        });
+    }
+    else
+    {
+      this.warningText="Please enter a valid Email and Password combination";
+      this.loginError=true;
+    }
+  }
+  onForgotPasswordClick()
+  {
+    this.auth.logout();
+    this.loginError=true;
+    if(this.email.value==null)
+    {
+      this.warningText="Please enter a valid email";
+    }
+    else
+    {
+      var result=this.auth.resetPassword(this.email.value);
+      result.then(()=>
+      {
+      this.warningText="Password reset email sent successfully";
+      });
+      result.catch(err=>
+        {
+          this.warningText="There was an error sending your password reset email";
+          console.log(err);
+        });
+    }
   }
 }

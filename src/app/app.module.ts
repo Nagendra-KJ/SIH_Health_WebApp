@@ -12,6 +12,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AuthGuard} from './shared/services/auth.guard';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,10 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     FormsModule,
     NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+        AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
