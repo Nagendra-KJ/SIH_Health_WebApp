@@ -5,54 +5,52 @@
       <h5 class="card-title mb-4 mt-1">Sign Up</h5>
       <form>
         <div class="form-group">
-          <label>Your Username</label>
-          <input name="username" placeholder="Username" type="text" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label>Your Firstname</label>
-          <input name="firstName" placeholder="First Name" type="text" class="form-control" />
+          <label>Your First Name</label>
+          <input name="firstName" placeholder="First Name" type="text" [formControl]="firstName" class="form-control"/>
         </div>
         <div class="form-group">
           <label>Your Last Name</label>
-          <input name="lastName" placeholder="Last Name" type="text" class="form-control" />
+          <input name="lastName" placeholder="Last Name" type="text" [formControl]="lastName" class="form-control" />
         </div>
         <div class="form-group">
           <label>Your Email ID</label>
-          <input name="email" placeholder="Email" type="text" class="form-control" />
+          <input name="email" placeholder="Email" type="text" [formControl]="email" class="form-control" />
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input name="password" placeholder="Password" type="password" class="form-control" />
+          <input name="password" placeholder="Password" type="password" [formControl]="password" class="form-control" />
         </div>
         <div class="form-group">
           <label>Confirm Password</label>
-          <input name="cPassword" placeholder="Confirm Password" type="password" class="form-control" />
+          <input name="cPassword" placeholder="Confirm Password" type="password" [formControl]="cPassword" class="form-control" />
         </div>
         <div class="form-group">
           <label>Your Phone Number</label>
-          <input name="phone" placeholder="Phone Number" type="text" class="form-control" />
+          <input name="phone" placeholder="Phone Number" type="text" [formControl]="phoneNumber" class="form-control" />
         </div>
 
         <div class="form-group">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="loginOption" value="Doctor" />
+            <input class="form-check-input" type="radio" name="loginOption" value="Doctor" [formControl]="userType"/>
             <label class="form-check-label">Doctor</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="loginOption" value="Health Worker" />
+            <input class="form-check-input" type="radio" name="loginOption" value="Health Worker" [formControl]="userType"/>
             <label class="form-check-label">Health Worker</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="loginOption" value="Patient" />
+            <input class="form-check-input" type="radio" name="loginOption" value="Patient" [formControl]="userType"/>
             <label class="form-check-label">Patient</label>
           </div>
         </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block" (click)="onSignUpClick()">
+            Sign Up
+          </button>
+        </div>
+        <div  *ngIf="validationError" class="alert alert-danger"> {{errorMessage}}</div>
       </form>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">
-          Sign Up
-        </button>
-      </div>
+      
     </div>
   </div>
 </div>
