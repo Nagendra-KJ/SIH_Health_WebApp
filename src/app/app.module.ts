@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,15 +12,24 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {AuthGuard} from './shared/services/auth.guard';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AuthGuard } from './shared/services/auth.guard';
+import { AuthService } from './shared/services/auth.service';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
+import { SharedDataService } from './shared-data.service';
+import { PatientsComponent } from './dashboard/patients/patients.component';
+import { DoctorsComponent } from './dashboard/doctors/doctors.component';
+import { HealthWorkersComponent } from './dashboard/health-workers/health-workers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignUpComponent,
-    DashboardComponent
+    DashboardComponent,
+    PatientsComponent,
+    DoctorsComponent,
+    HealthWorkersComponent
   ],
   imports: [
     BrowserModule,
@@ -29,10 +38,11 @@ import {AuthGuard} from './shared/services/auth.guard';
     FormsModule,
     NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFireDatabaseModule,
-        AngularFireAuthModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AuthService, AngularFirestore, SharedDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
