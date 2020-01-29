@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -20,7 +20,7 @@ import { SharedDataService } from './shared-data.service';
 import { PatientsComponent } from './dashboard/patients/patients.component';
 import { DoctorsComponent } from './dashboard/doctors/doctors.component';
 import { HealthWorkersComponent } from './dashboard/health-workers/health-workers.component';
-
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,10 +37,13 @@ import { HealthWorkersComponent } from './dashboard/health-workers/health-worker
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [AuthGuard, AuthService, AngularFirestore, SharedDataService],
   bootstrap: [AppComponent]

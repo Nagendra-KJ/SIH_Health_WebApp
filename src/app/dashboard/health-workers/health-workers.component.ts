@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DBOperationsService } from 'src/app/shared/services/dboperations.service';
 import { Patient } from 'src/app/shared/models/patient';
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { Patient } from 'src/app/shared/models/patient';
 })
 export class HealthWorkersComponent implements OnInit {
 
+
+  @ViewChild("pdfTable", { static: false }) pdfTable: ElementRef;
   selectedPatient: Patient;
   patients: Patient[];
   loadedData: boolean = false;
@@ -50,4 +53,25 @@ export class HealthWorkersComponent implements OnInit {
   public sendPhoneReminder() {
     console.log("Reminder sent to " + this.selectedPatient.name + ". The phone number is " + this.selectedPatient.phoneNumber);
   }
+
+  public downloadPDF() {
+    console.log("Hello");
+    const doc = new jsPDF();
+    const specialElementHandlers = {
+      '#editor': function (element, renderer) {
+        return true;
+      }
+    };
+    console.log(this.pdfTable)
+    const pdfTable = this.pdfTable.nativeElement;
+
+    doc.fromHTML(pdfTable.innerHTML, 15, 15, {
+      width: 190,
+      'elementHandlers': specialElementHandlers
+    });
+
+    doc.save('tableToPdf.pdf');
+  }
+
+
 }

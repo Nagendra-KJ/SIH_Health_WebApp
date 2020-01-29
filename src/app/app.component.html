@@ -1,1 +1,13 @@
+<mat-toolbar>
+    <span>Health</span>
+    <!-- <mat-icon class="exit_to_app" aria-hidden="false" style="float: right; text-align: right;"
+        aria-label="Example delete icon">delete
+    </mat-icon> -->
+    <span *ngIf="userData.userType == 'Patient'">Patient</span>
+    <span *ngIf="userData.userType == 'Doctor'">Doctor</span>
+    <span *ngIf="userData.userType == 'Health-Worker'">Health-Worker</span>
+
+
+</mat-toolbar>
+
 <router-outlet></router-outlet>

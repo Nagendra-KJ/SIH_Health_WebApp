@@ -1,6 +1,6 @@
 <div style="padding: 10px">
   <div class="row">
-    <div *ngIf="loadedData">
+    <div>
       <div class="card" *ngFor="let patient of patients" style="width:auto;margin:10px;float:left;">
         <div class="card-body">
           <h5 class="card-title">{{patient.name}}</h5>
@@ -52,6 +52,34 @@
         Send phone reminder
       </button>
     </div>
-    <a [routerLink]="" style="text-align: center;">Click here to download the prescription for this patient</a>
+    <a (click)="downloadPDF()" style="text-align: center;">Click here to download the prescription for
+      this patient</a>
   </ng-template>
+</div>
+
+<div #pdfTable id="pdfTable" [hidden]="true" style="color: black;">
+  <div class="row" style="text-align: -webkit-center;">
+    <table style="width: 100%; border-collapse:collapse">
+      <tr>
+        <td class="fieldHeading">Name:</td>
+        <td>{{selectedPatient.name}}</td>
+      </tr>
+      <tr>
+        <td class="fieldHeading">Age:</td>
+        <td>{{selectedPatient.age}}</td>
+      </tr>
+      <tr>
+        <td class="fieldHeading">Height:</td>
+        <td>{{selectedPatient.height}}</td>
+      </tr>
+      <tr>
+        <td class="fieldHeading">Weight:</td>
+        <td>{{selectedPatient.weight}}</td>
+      </tr>
+      <tr>
+        <td class="fieldHeading">Blood Type:</td>
+        <td>{{selectedPatient.bloodType}}</td>
+      </tr>
+    </table>
+  </div>
 </div>
