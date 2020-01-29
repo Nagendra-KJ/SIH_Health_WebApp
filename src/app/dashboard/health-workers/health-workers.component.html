@@ -1,3 +1,57 @@
-<p>
-  health-workers works!
-</p>
+<div style="padding: 10px">
+  <div class="row">
+    <div *ngIf="loadedData">
+      <div class="card" *ngFor="let patient of patients" style="width:auto;margin:10px;float:left;">
+        <div class="card-body">
+          <h5 class="card-title">{{patient.name}}</h5>
+          <p class="card-text"><b>Date of Appointment:</b> {{patient.appointmentDate}}</p>
+          <button class="btn btn-success" (click)="viewPatientDetails(patient,patientmodal)">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #patientmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="color:black">
+        Patient Details
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="color: black;">
+      <div class="row" style="text-align: -webkit-center;">
+        <table style="width: 100%; border-collapse:collapse">
+          <tr>
+            <td class="fieldHeading">Name:</td>
+            <td>{{selectedPatient.name}}</td>
+          </tr>
+          <tr>
+            <td class="fieldHeading">Age:</td>
+            <td>{{selectedPatient.age}}</td>
+          </tr>
+          <tr>
+            <td class="fieldHeading">Height:</td>
+            <td>{{selectedPatient.height}}</td>
+          </tr>
+          <tr>
+            <td class="fieldHeading">Weight:</td>
+            <td>{{selectedPatient.weight}}</td>
+          </tr>
+          <tr>
+            <td class="fieldHeading">Blood Type:</td>
+            <td>{{selectedPatient.bloodType}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="sendPhoneReminder()"
+        style="display: block; margin: 0 auto;">
+        Send phone reminder
+      </button>
+    </div>
+    <a [routerLink]="" style="text-align: center;">Click here to download the prescription for this patient</a>
+  </ng-template>
+</div>
