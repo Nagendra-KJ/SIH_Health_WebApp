@@ -21,6 +21,7 @@ export class HealthWorkersComponent implements OnInit {
 
   ngOnInit() {
     var list = this.dbOps.getPatients();
+    this.selectedPatient = new Patient();
     var problem = list.then(data => {
       data.forEach(element => {
         this.patients = element;
@@ -52,6 +53,11 @@ export class HealthWorkersComponent implements OnInit {
   }
   public sendPhoneReminder() {
     console.log("Reminder sent to " + this.selectedPatient.name + ". The phone number is " + this.selectedPatient.phoneNumber);
+  }
+
+  public newp(id: string) {
+    this.modalService.open(id);
+
   }
 
   public downloadPDF() {
