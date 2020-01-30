@@ -40,24 +40,20 @@ export class SignUpComponent implements OnInit {
       promi.then((userAuth) => {
         console.log(userAuth);
         this.myUser.userId = userAuth.user.uid;
-
         this.databaseService.addUser(this.myUser);
-
         return;
       }, (error) => {
         console.log(error);
+        this.validationError = true;
         if (error.code == "auth/email-already-in-use") {
-          this.validationError = true;
           this.errorMessage = "This email is already registered";
-
         }
-      })
-
-
-    };
-
-
-
+        else
+        {
+          this.errorMessage="There was an error when we were trying to register your user";
+        }
+      });
+    }
   }
 
   validateForm() {

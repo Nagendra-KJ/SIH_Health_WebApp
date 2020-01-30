@@ -17,9 +17,12 @@ export class DashboardComponent implements OnInit {
   userData: User;
   constructor(private sharedData: SharedDataService) { }
 
-  ngOnInit() {
-    this.userData = this.sharedData.getUserData();
-    console.log(this.userData)
-
+  ngOnInit() 
+  {
+    this.userData=new User();
+    this.sharedData.userData.subscribe(data=>
+      {
+        this.userData=data;
+      });
   }
 }

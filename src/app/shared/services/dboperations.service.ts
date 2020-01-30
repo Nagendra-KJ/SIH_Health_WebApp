@@ -3,7 +3,6 @@ import { Patient } from '../models/patient';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { User } from '../models/user';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -15,25 +14,15 @@ export class DBOperationsService {
 
   constructor(private db: AngularFireDatabase, private fireStore: AngularFirestore) { }
 
-  createPatient(patient: Patient) {
-    this.db.list('patients').push(patient);
-  }
-
-
-  async getPatients() {
-    var patients: Observable<any[]>;
-    patients = this.db.list('/patients').snapshotChanges().pipe(
-      map((patients: any[]) => patients.map(patient => {
-        const payload = patient.payload.val();
-        const key = patient.key;
-        return <any>{ key, ...payload };
-      })),
-    );
-    return patients;
+  getPatients() {
+      return this.fireStore.collection<Patient>("Patient",ref=>ref.where('appointmentDate','>',"")).valueChanges();
   }
 
   async addUser(user: User) {
+    console.log("Adding user to database");
     this.fireStore.collection<User>('users').add(JSON.parse(JSON.stringify(user)));
+    var profile=this.createProfile(user);
+    this.fireStore.collection<Patient>(user.userType).add(JSON.parse(JSON.stringify(profile)));
   }
 
   deletePatient(key: string) {
@@ -42,5 +31,19 @@ export class DBOperationsService {
 
   getUser(userId: string) {
     return this.fireStore.collection("users", ref => ref.where('userId', '==', userId).limit(1)).valueChanges();
+  }
+  createProfile(user:User):any
+  {
+    var patient=new Patient();
+    patient.name=user.firstName+' '+user.lastName
+    patient.email=user.email;
+    patient.userId=user.userId;
+    patient.phoneNumber=user.phoneNumber;
+    return patient;
+  }
+
+  searchPatient(field:string,query:string)
+  {
+    return this.fireStore.collection("Patient",ref=>ref.where(field,"==",query)).valueChanges();
   }
 }

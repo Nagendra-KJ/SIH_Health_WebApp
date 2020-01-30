@@ -1,4 +1,4 @@
-<button (click)="newp(newpatient)" mat-fab></button>
+<button (click)="newPatient(newpatient)" mat-raised-button>Add a new Patient</button>
 <div style="padding: 10px">
   <div class="row">
     <div>
@@ -11,22 +11,63 @@
       </div>
     </div>
   </div>
+  <div class="jumbotron jumbotron-fluid" *ngIf="noUpcomingPatients">
+    <div class="container">
+      <h1 class="display-4">No Upcoming Appointments</h1>
+    </div>
+  </div>
 
 
   <ng-template #newpatient let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title" style="color:black">
-        Patient Details
+        Choose a field to search for patients
       </h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body" style="color: black;">
-
+      <div class="container-fluid" style="text-align:center;">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+            <mat-label>Select Search Field</mat-label>
+            <mat-select [(ngModel)]="selectedField" name="searchField" >
+              <mat-option *ngFor="let option of fieldOptions" [value]="option.value">
+                {{option.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+          <div class="col">
+            <input name="searchKey" placeholder="Enter Search Key" [formControl]="searchKey" type="text" class="form-control">
+          </div>
     </div>
-    <div class="modal-footer">
+    </div>
+    <div class="alert alert-danger" *ngIf="queryError">
+        {{errorMessage}}
+    </div>
+    <div *ngIf="querySuccess" class="container-fluid" style="text-align:center;">
+      <div class="row" *ngFor="let query of queriedPatients" style="margin:5px;">
+        <div class="col">
+          {{query.name}}
+        </div>
+        <div class="col">
+          {{query.phoneNumber}}
+        </div>
+        <div class="col">
+          {{query.email}}
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-primary" (click)="bookAppointment(query,newAppointment)">View Details</button>
+        </div>
+      </div>
+    </div>
+    </div>
 
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" style="margin:0 auto;display:block" (click)="onSearchClick()">Search</button>
     </div>
 
   </ng-template>
@@ -103,3 +144,47 @@
     </table>
   </div>
 </div>
+
+<ng-template #newAppointment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="color:black">
+      Patient Details
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="color: black;">
+    <div class="row" style="text-align: -webkit-center;">
+      <table style="width: 100%; border-collapse:collapse">
+        <tr>
+          <td class="fieldHeading">Name:</td>
+          <td>{{selectedPatient.name}}</td>
+        </tr>
+        <tr>
+          <td class="fieldHeading">Age:</td>
+          <td>{{selectedPatient.age}}</td>
+        </tr>
+        <tr>
+          <td class="fieldHeading">Height:</td>
+          <td>{{selectedPatient.height}}</td>
+        </tr>
+        <tr>
+          <td class="fieldHeading">Weight:</td>
+          <td>{{selectedPatient.weight}}</td>
+        </tr>
+        <tr>
+          <td class="fieldHeading">Blood Type:</td>
+          <td>{{selectedPatient.bloodType}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    Add a date picker here!    
+    <button type="button" class="btn btn-primary" (click)="updateAppointments()"
+      style="display: block; margin: 0 auto;">
+      Book Appointment
+    </button>
+  </div>
+</ng-template>

@@ -22,6 +22,7 @@ import { DoctorsComponent } from './dashboard/doctors/doctors.component';
 import { HealthWorkersComponent } from './dashboard/health-workers/health-workers.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { MatButtonModule } from '@angular/material';
     AngularFirestoreModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [AuthGuard, AuthService, AngularFirestore, SharedDataService],
   bootstrap: [AppComponent]

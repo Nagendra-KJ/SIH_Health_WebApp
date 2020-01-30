@@ -5,8 +5,9 @@ export class Patient {
     weight: number;
     bloodType: string;
     appointmentDate: any;
-    phoneNumber: number;
-    key: string;
+    phoneNumber: string;
+    email: string;
+    userId: string;
     constructor() {
         this.name = "";
         this.age = 0;
@@ -14,7 +15,8 @@ export class Patient {
         this.weight = 0;
         this.bloodType = "";
         this.appointmentDate = "";
-        this.phoneNumber = 0;
-        this.key = "";
+        this.phoneNumber = "";
+        this.email = "";
+        this.userId = "";
     }
 }

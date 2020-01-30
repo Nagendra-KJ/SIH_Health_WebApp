@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     private sharedData: SharedDataService) { }
 
   ngOnInit() {
-    // this.auth.logout();
     if (this.auth.authenticated()) {
       this.loginError = true;
       this.warningText = "You have been logged out automatically, please login again to continue";
@@ -40,17 +39,12 @@ export class LoginComponent implements OnInit {
       this.warningText = "";
       var result = this.auth.login(this.email.value, this.password.value);
       result.then((user) => {
-        console.log(user.user.uid);
         const ref = this.dbService.getUser(user.user.uid);
 
         ref.subscribe(async doc => {
 
           let userData: User = <User>doc[0];
-          await this.sharedData.setUserData(userData).then(() => {
-            console.log("Login Successful");
-            this.router.navigate(['/dashboard']);
-          });
-
+          this.sharedData.setUserData(userData);
         })
 
       })
@@ -59,6 +53,7 @@ export class LoginComponent implements OnInit {
         this.warningText = "Email or Password is incorrect. Are you sure you are a registered user?";
         console.log(err);
       });
+      this.router.navigate(['/dashboard']);
     }
     else {
       this.warningText = "Please enter a valid Email and Password combination";
