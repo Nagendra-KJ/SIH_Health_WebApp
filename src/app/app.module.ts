@@ -22,8 +22,11 @@ import { DoctorsComponent } from './dashboard/doctors/doctors.component';
 import { HealthWorkersComponent } from './dashboard/health-workers/health-workers.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule, DateAdapter } from '@angular/material';
-import {MatSelectModule} from '@angular/material/select';
-import {AngularMaterialModule} from "./angular-material.module";
+import { MatSelectModule } from '@angular/material/select';
+import { AngularMaterialModule } from "./angular-material.module";
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { DropZoneDirective } from './drop-zone.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +35,8 @@ import {AngularMaterialModule} from "./angular-material.module";
     DashboardComponent,
     PatientsComponent,
     DoctorsComponent,
-    HealthWorkersComponent
+    HealthWorkersComponent,
+    DropZoneDirective
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,8 @@ import {AngularMaterialModule} from "./angular-material.module";
     MatIconModule,
     MatButtonModule,
     MatSelectModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    AngularFireStorageModule
   ],
   providers: [AuthGuard, AuthService, AngularFirestore, SharedDataService],
   bootstrap: [AppComponent]

@@ -8,6 +8,7 @@ export class Patient {
     phoneNumber: string;
     email: string;
     userId: string;
+    image: string;
     constructor() {
         this.name = "";
         this.age = 0;
@@ -18,5 +19,6 @@ export class Patient {
         this.phoneNumber = "";
         this.email = "";
         this.userId = "";
+        this.image = "";
     }
 }

@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { User } from '../shared/models/user';
 import { DBOperationsService } from '../shared/services/dboperations.service';
+import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { filter, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-up',
@@ -22,8 +26,10 @@ export class SignUpComponent implements OnInit {
   validationError: boolean = false;
   errorMessage: string;
   myUser = new User();
+  disabled = true;
 
-  constructor(private auth: AuthService, private router: Router, private databaseService: DBOperationsService) { }
+  constructor(private auth: AuthService, private router: Router, private databaseService: DBOperationsService,
+    private storage: AngularFireStorage, private db: AngularFirestore) { }
 
   ngOnInit() { }
 
@@ -48,9 +54,8 @@ export class SignUpComponent implements OnInit {
         if (error.code == "auth/email-already-in-use") {
           this.errorMessage = "This email is already registered";
         }
-        else
-        {
-          this.errorMessage="There was an error when we were trying to register your user";
+        else {
+          this.errorMessage = "There was an error when we were trying to register your user";
         }
       });
     }
@@ -100,6 +105,71 @@ export class SignUpComponent implements OnInit {
     this.validationError = false;
     this.errorMessage = "";
     return true;
+  }
+
+
+  // Main task 
+  task: AngularFireUploadTask;
+
+  // Progress monitoring
+  percentage: Observable<number>;
+
+  snapshot: Observable<any>;
+
+  // Download URL
+  downloadURL: Observable<string>;
+
+  // State for dropzone CSS toggling
+  isHovering: boolean;
+
+
+
+
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+
+  startUpload(event: FileList) {
+    // The File object
+    const file = event.item(0)
+
+    // Client-side validation example
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type :( ')
+      return;
+    }
+
+    // The storage path
+    const path = `test/${new Date().getTime()}_${file.name}`;
+
+    // Totally optional metadata
+    const customMetadata = { app: 'My AngularFire-powered PWA!' };
+
+    // The main task
+    this.task = this.storage.upload(path, file, { customMetadata })
+    const ref = this.storage.ref(path);
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot = this.task.snapshotChanges()
+
+    this.task.snapshotChanges().pipe(
+      finalize(() => {
+        ref.getDownloadURL().subscribe(url => {
+          console.log(url);
+          this.myUser.image = url;
+          this.disabled = false;
+          // <-- do what ever you want with the url..
+        });
+      }))
+      .subscribe();
+
+  }
+
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes
   }
 
 }

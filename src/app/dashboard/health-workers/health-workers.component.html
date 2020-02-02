@@ -1,3 +1,20 @@
+<div class="col-sm-6 col-xs-1" style="margin: 20px;">
+  <div class="card " style="padding: 1px">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card-body text-center"> <img [src]="photo" class="image--cover"></div>
+      </div>
+      <div class="col-sm-6" style="align-items: center; padding: 25px">
+        <h2 class="card-title">{{user.firstName}}</h2>
+        <h3 class="card-subtitle mb-2">{{user.lastName}}</h3>
+        <h5 class="card-subtitle mb-2">{{user.userType}}</h5>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <button (click)="newPatient(newpatient)" mat-raised-button>Add a new Patient</button>
 <div style="padding: 10px">
   <div class="row">
@@ -32,47 +49,50 @@
         <div class="row">
           <div class="col">
             <mat-form-field>
-            <mat-label>Select Search Field</mat-label>
-            <mat-select [(ngModel)]="selectedField" name="searchField" >
-              <mat-option *ngFor="let option of fieldOptions" [value]="option.value">
-                {{option.label}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+              <mat-label>Select Search Field</mat-label>
+              <mat-select [(ngModel)]="selectedField" name="searchField">
+                <mat-option *ngFor="let option of fieldOptions" [value]="option.value">
+                  {{option.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div class="col">
-            <input name="searchKey" placeholder="Enter Search Key" [formControl]="searchKey" type="text" class="form-control">
+            <input name="searchKey" placeholder="Enter Search Key" [formControl]="searchKey" type="text"
+              class="form-control">
           </div>
-    </div>
-    </div>
-    <div class="alert alert-danger" *ngIf="queryError">
+        </div>
+      </div>
+      <div class="alert alert-danger" *ngIf="queryError">
         {{errorMessage}}
-    </div>
-    <div *ngIf="querySuccess" class="container-fluid" style="text-align:center;">
-      <table class="table table-borderless">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let query of queriedPatients;let i=index">
-      <th scope="row">{{i+1}}</th>
-      <td>{{query.name}}</td>
-      <td>{{query.phoneNumber}}</td>
-      <td>{{query.email}}</td>
-      <td><button type="button" class="btn btn-primary" (click)="bookAppointment(query,newAppointment)">View Details</button></td>
-    </tr>
-  </tbody>
-</table>
-    </div>
+      </div>
+      <div *ngIf="querySuccess" class="container-fluid" style="text-align:center;">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let query of queriedPatients;let i=index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{query.name}}</td>
+              <td>{{query.phoneNumber}}</td>
+              <td>{{query.email}}</td>
+              <td><button type="button" class="btn btn-primary" (click)="bookAppointment(query,newAppointment)">View
+                  Details</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" style="margin:0 auto;display:block" (click)="onSearchClick()">Search</button>
+      <button type="button" class="btn btn-success" style="margin:0 auto;display:block"
+        (click)="onSearchClick()">Search</button>
     </div>
 
   </ng-template>
@@ -187,10 +207,11 @@
   </div>
   <div class="modal-footer">
     <mat-form-field>
-      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="unformattedDate" placeholder="Choose a date">
+      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="unformattedDate"
+        placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>  
+    </mat-form-field>
     <button type="button" class="btn btn-primary" (click)="updateAppointments()"
       style="display: block; margin: 0 auto;">
       Book Appointment

@@ -6,6 +6,7 @@ export class User {
     phoneNumber: string;
     userType: string;
     userId: string;
+    image: string;
     constructor() {
 
     }

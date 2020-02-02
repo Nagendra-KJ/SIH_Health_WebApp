@@ -6,9 +6,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SharedDataService {
-  private userDataHandler=new BehaviorSubject(new User());
+  private userDataHandler = new BehaviorSubject(new User());
   userData = this.userDataHandler.asObservable();
-  constructor() {}
+  constructor() { }
 
   setUserData(user: User) {
     this.userDataHandler.next(user);
