@@ -20,8 +20,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router, private dbService: DBOperationsService,
     private sharedData: SharedDataService) { }
-
+  ngOnDestroy() {
+    document.body.classList.remove('bg-img');
+  }
   ngOnInit() {
+    document.body.classList.add('bg-img');
     if (this.auth.authenticated()) {
       this.loginError = true;
       this.warningText = "You have been logged out automatically, please login again to continue";

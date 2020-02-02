@@ -1,6 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  padding-top: 0px !important;
+}
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -10,3 +16,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
  }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.bg-img {
+  background-image: url("./app/login/O6RBXH0.jpg") !important;
+  background-size: cover;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
