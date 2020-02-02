@@ -4,17 +4,38 @@ import { DBOperationsService } from 'src/app/shared/services/dboperations.servic
 import { Patient } from 'src/app/shared/models/patient';
 import jsPDF from 'jspdf';
 import { FormControl } from '@angular/forms';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import { stringify } from 'querystring';
 
 export interface Option
 {
   value:string;
   label:string;
 }
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD MM YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-health-workers',
   templateUrl: './health-workers.component.html',
-  styleUrls: ['./health-workers.component.css']
+  styleUrls: ['./health-workers.component.css'],
+  providers:[
+               {provide:DateAdapter,
+                useClass:MomentDateAdapter,
+                deps:[MAT_DATE_LOCALE,MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+               },
+               {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+            ]
 })
 export class HealthWorkersComponent implements OnInit {
 
@@ -33,6 +54,10 @@ export class HealthWorkersComponent implements OnInit {
   errorMessage:string="";
   queriedPatients:Patient[];
   querySuccess:boolean=false;
+  minDate:Date=new Date();
+  maxDate:Date=new Date(this.minDate.getFullYear()+1,this.minDate.getMonth(),this.minDate.getDate());
+  unformattedDate:any;
+  appointmentDate:string;
 
   constructor(private modalService: NgbModal, private dbOps: DBOperationsService) { }
 
@@ -119,4 +144,17 @@ export class HealthWorkersComponent implements OnInit {
     this.selectedPatient=patient;
     this.modalService.open(id);
   }
+  public updateAppointments()
+  {
+    var month=this.unformattedDate._i.month;
+    var date=this.unformattedDate.toString().substring(7,10);
+    var year=this.unformattedDate.toString().substring(11,15);
+    month=month+1;
+    if(String(month).length<2)
+      month="0"+month;
+    this.appointmentDate=date+"."+month+"."+year;
+    this.selectedPatient.appointmentDate=this.appointmentDate;
+    this.dbOps.updatePatientDetails(this.selectedPatient);
+  }
+ 
 }

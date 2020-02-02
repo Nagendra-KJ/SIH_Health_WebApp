@@ -49,20 +49,25 @@
         {{errorMessage}}
     </div>
     <div *ngIf="querySuccess" class="container-fluid" style="text-align:center;">
-      <div class="row" *ngFor="let query of queriedPatients" style="margin:5px;">
-        <div class="col">
-          {{query.name}}
-        </div>
-        <div class="col">
-          {{query.phoneNumber}}
-        </div>
-        <div class="col">
-          {{query.email}}
-        </div>
-        <div class="col">
-          <button type="button" class="btn btn-primary" (click)="bookAppointment(query,newAppointment)">View Details</button>
-        </div>
-      </div>
+      <table class="table table-borderless">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let query of queriedPatients;let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{query.name}}</td>
+      <td>{{query.phoneNumber}}</td>
+      <td>{{query.email}}</td>
+      <td><button type="button" class="btn btn-primary" (click)="bookAppointment(query,newAppointment)">View Details</button></td>
+    </tr>
+  </tbody>
+</table>
     </div>
     </div>
 
@@ -181,7 +186,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    Add a date picker here!    
+    <mat-form-field>
+      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="unformattedDate" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>  
     <button type="button" class="btn btn-primary" (click)="updateAppointments()"
       style="display: block; margin: 0 auto;">
       Book Appointment

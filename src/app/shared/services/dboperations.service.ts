@@ -46,4 +46,15 @@ export class DBOperationsService {
   {
     return this.fireStore.collection("Patient",ref=>ref.where(field,"==",query)).valueChanges();
   }
+  updatePatientDetails(newPatient:Patient)
+  {
+    var result= this.fireStore.collection("Patient",ref=>ref.where("userId","==",newPatient.userId)).snapshotChanges();
+    result.subscribe(data=>
+      {
+        let id= data[0].payload.doc.id;
+        this.fireStore.collection("Patient").doc(id).update({"appointmentDate":newPatient.appointmentDate});
+      });
+      return;
+  }
+   
 }
